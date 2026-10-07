@@ -40,36 +40,3 @@ jobs:
         with:
           name: sast-report
           path: ./dependency-check-report.html
-
-  DAST
-Under the .github/workflows directory create the dast scan yml file with the below's content. Filename: zap-scan.yml
-name: "owasp-scan"
-
-on:
-  push:
-    branches: [githubcicd]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Change script permission
-        run: |
-          chmod +x scripts/zap-script.sh
-
-      - name: ZAP scan
-        run: scripts/zap-script.sh
-
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: zap report
-          path: |
-            ./zap_baseline_report.html
